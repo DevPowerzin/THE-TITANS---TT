@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Titans — Infraestrutura, tecnologia e soluções que redefinem o tempo." />
+  <title>THE TITANS // TT</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════
+       CS ES — IADE VL TT
+    ═══════════════════════════════════ */
+    :root {
+      --bg-black:       #000000;
+      --bg-deep:        #050505;
+      --bg-card:        #0d0d0d;
+      --bg-elevated:    #111111;
+      --bg-hover:       #1a1a1a;
+      --border-faint:   #1e1e1e;
+      --border-dim:     #2a2a2a;
+      --border-mid:     #3a3a3a;
+      --text-primary:   #f0f0f0;
+      --text-secondary: #888888;
+      --text-dim:       #444444;
+      --text-accent:    #cccccc;
+      --mono:           'JetBrains Mono', monospace;
+      --sans:           'Syne', sans-serif;
+      --t:              all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-black);
+      color: var(--text-primary);
+      font-family: var(--sans);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: #2a2a2a; color: #fff; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+    /* Scne ovelay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(255,255,255,0.013) 2px, rgba(255,255,255,0.013) 4px
+      );
+      pointer-events: none; z-index: 9999;
+    }
+
+    /* ═══════════════════════
+       NAV
+    ═══════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1.2rem 2rem;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-faint);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--mono); font-size: 0.75rem;
+      color: var(--text-secondary); letter-spacing: 0.3em;
+      text-transform: uppercase; text-decoration: none;
+    }
+    .nav-logo span { color: var(--text-primary); font-weight: 700; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--text-dim); text-decoration: none;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      transition: var(--t);
+    }
+    .nav-links a::before { content: '> '; color: var(--border-mid); transition: var(--t); }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover::before { color: var(--text-secondary); }
+    .nav-status {
+      font-family: var(--mono); font-size: 0.65rem;
+      color: var(--text-dim); letter-spacing: 0.1em;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .dot { width: 5px; height: 5px; background: #3a3a3a; border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px; background: none; border: none;
+    }
+    .nav-hamburger span { display: block; width: 22px; height: 1px; background: var(--text-secondary); transition: var(--t); }
+
+    /* ═══════════════════════
+       HRO
+    ═══════════════════════ */
+    header {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 8rem 2rem 4rem; overflow: hidden;
+    }
+    header::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border-faint) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-faint) 1px, transparent 1px);
+      background-size: 60px 60px; background-position: center;
+      opacity: 0.4;
+    }
+    header::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%,
+        transparent 20%, rgba(0,0,0,.6) 60%, rgba(0,0,0,.95) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; max-width: 900px;
+    }
+
+    /* Logo plder */
+    .logo-container {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 90px; height: 90px;
+      border: 1px solid var(--border-dim);
+      margin-bottom: 3rem; position: relative; transition: var(--t);
+    }
+    .logo-container:hover { border-color: var(--border-mid); }
+    .logo-container::before {
+      content: ''; position: absolute; top: -4px; left: -4px;
+      width: 8px; height: 8px;
+      border-top: 1px solid var(--border-mid); border-left: 1px solid var(--border-mid);
+    }
+    .logo-container::after {
+      content: ''; position: absolute; bottom: -4px; right: -4px;
+      width: 8px; height: 8px;
+      border-bottom: 1px solid var(--border-mid); border-right: 1px solid var(--border-mid);
+    }
+    .logo-tt { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; letter-spacing: .1em; }
+
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: .65rem;
+      color: var(--text-dim); letter-spacing: .4em;
+      text-transform: uppercase; margin-bottom: 1.5rem; display: block;
+    }
+    .hero-title {
+      font-family: var(--sans); font-size: clamp(2rem,5vw,3.8rem);
+      font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--text-primary); margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .hero-title .dim { color: var(--text-secondary); }
+    .hero-title:hover::before, .hero-title:hover::after {
+      content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%;
+    }
+    .hero-title:hover::before {
+      animation: glitch1 .3s steps(2) forwards;
+      color: #333; clip-path: polygon(0 20%,100% 20%,100% 40%,0 40%);
+    }
+    .hero-title:hover::after {
+      animation: glitch2 .3s steps(2) forwards;
+      color: #222; clip-path: polygon(0 60%,100% 60%,100% 80%,0 80%);
+    }
+    @keyframes glitch1 { 0%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} 100%{transform:translateX(0)} }
+    @keyframes glitch2 { 0%{transform:translateX(0)} 25%{transform:translateX(4px)} 75%{transform:translateX(-4px)} 100%{transform:translateX(0)} }
+
+    .hero-sub {
+      font-family: var(--mono); font-size: clamp(.75rem,2vw,.95rem);
+      color: var(--text-secondary); letter-spacing: .2em; margin-bottom: 2.5rem;
+    }
+    .hero-sub .prompt { color: var(--text-dim); }
+    .hero-terminal {
+      display: inline-flex; align-items: center; gap: 1.5rem;
+      font-family: var(--mono); font-size: .65rem;
+      color: var(--text-dim); border: 1px solid var(--border-faint);
+      padding: .6rem 1.2rem; letter-spacing: .15em; flex-wrap: wrap; justify-content: center;
+    }
+    .hero-terminal .sep { color: var(--border-dim); }
+
+    .scroll-indicator {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    }
+    .scroll-indicator span { font-family: var(--mono); font-size: .6rem; color: var(--text-dim); letter-spacing: .3em; text-transform: uppercase; }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--border-mid), transparent); animation: scrollDrop 1.5s ease-in-out infinite; }
+    @keyframes scrollDrop { 0%{opacity:0;transform:scaleY(0);transform-origin:top} 50%{opacity:1;transform:scaleY(1);transform-origin:top} 100%{opacity:0;transform:scaleY(1);transform-origin:bottom} }
+
+    /* ═══════════════════════
+       SAED SON
+    ═══════════════════════ */
+    main section, main article { padding: 7rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--mono); font-size: .65rem; color: var(--text-dim);
+      letter-spacing: .4em; text-transform: uppercase; display: block; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--mono); font-size: clamp(1.1rem,2.5vw,1.5rem);
+      font-weight: 500; color: var(--text-primary); letter-spacing: .05em; margin-bottom: 3rem;
+    }
+    .section-title .prompt { color: var(--text-dim); }
+
+    /* ═══════════════════════
+       SRE
+    ═══════════════════════ */
+    #sobre { border-top: 1px solid var(--border-faint); }
+    .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .sobre-text p { color: var(--text-accent); font-size: 1.05rem; line-height: 1.9; margin-bottom: 1.5rem; }
+    .sobre-text p:last-child { margin-bottom: 0; }
+    .highlight { color: var(--text-primary); font-weight: 700; }
+    .sobre-stat-row { display: flex; gap: 3rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-faint); flex-wrap: wrap; }
+    .sobre-stat { font-family: var(--mono); }
+    .sobre-stat .num { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); display: block; }
+    .sobre-stat .lbl { font-size: .65rem; color: var(--text-dim); letter-spacing: .2em; text-transform: uppercase; }
+
+    .sobre-visual {
+      position: relative; aspect-ratio: 4/3;
+      background: var(--bg-card); border: 1px solid var(--border-faint);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .sobre-visual img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: .35; filter: grayscale(100%); transition: var(--t);
+    }
+    .sobre-visual:hover img { opacity: .5; }
+    .sobre-visual-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,.6) 0%,transparent 60%),
+                  linear-gradient(to top, rgba(0,0,0,.8) 0%,transparent 50%);
+    }
+    .sobre-visual-art {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,.015) 20px,rgba(255,255,255,.015) 21px);
+    }
+    .sobre-visual-label { position: absolute; bottom: 1rem; left: 1rem; font-family: var(--mono); font-size: .6rem; color: var(--text-dim); letter-spacing: .2em; }
+
+    /* ═══════════════════════
+       PROJETO fdhdhgdhdghdgh
+    ═══════════════════════ */
+    #projeto { border-top: 1px solid var(--border-faint); background: var(--bg-deep); }
+    #projeto > * { max-width: 1200px; margin-left: auto; margin-right: auto; }
+    .projeto-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 2rem; margin-bottom: 4rem; flex-wrap: wrap;
+    }
+    .projeto-badge {
+      font-family: var(--mono); font-size: .6rem; color: var(--text-secondary);
+      border: 1px solid var(--border-dim); padding: .35rem .8rem;
+      letter-spacing: .25em; text-transform: uppercase; white-space: nowrap; margin-top: .3rem;
+    }
+    .dot-badge { display: inline-block; width: 5px; height: 5px; background: #3a3a3a; border-radius: 50%; margin-right: .5rem; animation: pulse 2s ease-in-out infinite; }
+    .projeto-layout { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; align-items: start; }
+    .projeto-text p { color: var(--text-accent); line-height: 1.9; margin-bottom: 1.5rem; }
+
+    .delta-box {
+      position: sticky; top: 8rem;
+      border: 1px solid var(--border-dim); background: var(--bg-card);
+      padding: 2.5rem 2rem; text-align: center; transition: var(--t);
+      cursor: default; overflow: hidden;
+    }
+    .delta-box:hover { border-color: var(--border-mid); background: var(--bg-elevated); }
+    .delta-box::after {
+      content: ''; position: absolute; left: 0; top: 0; right: 0;
+      height: 2px; background: linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+      transform: translateY(0); transition: transform .8s ease; pointer-events: none;
+    }
+    .delta-box:hover::after { transform: translateY(200px); }
+    .delta-symbol {
+      font-family: var(--mono); font-size: 5rem; font-weight: 700;
+      color: var(--text-primary); opacity: .12; line-height: 1;
+      display: block; margin-bottom: 1.5rem; letter-spacing: -.05em; transition: var(--t);
+    }
+    .delta-box:hover .delta-symbol { opacity: .22; }
+    .delta-label {
+      font-family: var(--mono); font-size: .65rem; color: var(--text-secondary);
+      letter-spacing: .3em; text-transform: uppercase; display: block; margin-bottom: 2rem;
+    }
+    .delta-meta { display: flex; flex-direction: column; gap: .75rem; text-align: left; }
+    .delta-meta-item {
+      display: flex; justify-content: space-between;
+      font-family: var(--mono); font-size: .65rem;
+      padding-bottom: .75rem; border-bottom: 1px solid var(--border-faint);
+    }
+    .delta-meta-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .delta-meta-item .key { color: var(--text-dim); }
+    .delta-meta-item .val { color: var(--text-secondary); }
+
+    /* ═══════════════════════
+       VAORES
+    ═══════════════════════ */
+    #valores { border-top: 1px solid var(--border-faint); }
+    .valores-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .valor-card {
+      background: var(--bg-card); border: 1px solid var(--border-faint);
+      padding: 2.5rem 2rem; transition: var(--t); position: relative; overflow: hidden;
+    }
+    .valor-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 2px; height: 0; background: var(--border-mid); transition: height .4s ease;
+    }
+    .valor-card:hover { border-color: var(--border-dim); background: var(--bg-elevated); }
+    .valor-card:hover::before { height: 100%; }
+    .valor-icon { font-size: 1.5rem; display: block; margin-bottom: 1.5rem; opacity: .7; }
+    .valor-name { font-family: var(--mono); font-size: .65rem; color: var(--text-dim); letter-spacing: .3em; text-transform: uppercase; display: block; margin-bottom: .75rem; }
+    .valor-title { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; line-height: 1.3; }
+    .valor-desc { font-size: .875rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ═══════════════════════
+       FOTE
+    ═══════════════════════ */
+    footer { border-top: 1px solid var(--border-faint); background: var(--bg-black); padding: 5rem 2rem 3rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-phrase {
+      font-family: var(--sans); font-size: clamp(1.5rem,3vw,2.5rem);
+      font-weight: 800; color: var(--text-primary); opacity: .15;
+      line-height: 1.2; margin-bottom: 4rem; letter-spacing: -.02em;
+    }
+    .footer-system {
+      display: flex; align-items: center; gap: 1rem;
+      font-family: var(--mono); font-size: .65rem; color: var(--text-dim);
+      letter-spacing: .2em; margin-bottom: 3rem; padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-faint); flex-wrap: wrap;
+    }
+    .footer-system .sep { color: var(--border-dim); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-family: var(--mono); font-size: .6rem; color: var(--text-dim); letter-spacing: .15em; }
+    .footer-contact { font-family: var(--mono); font-size: .6rem; color: var(--text-dim); letter-spacing: .15em; text-decoration: none; transition: var(--t); }
+    .footer-contact:hover { color: var(--text-secondary); }
+    .footer-timestamp { font-family: var(--mono); font-size: .6rem; color: var(--text-dim); letter-spacing: .1em; }
+
+    /* ═══════════════════════
+       DE IN
+    ═══════════════════════ */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .1s; }
+    .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; }
+    .d4 { transition-delay: .4s; }
+
+    /* ═══════════════════════
+       RNSIVE
+    ═══════════════════════ */
+    @media (max-width: 900px) {
+      .sobre-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .projeto-layout { grid-template-columns: 1fr; }
+      .delta-box { position: static; }
+      .valores-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links {
+        display: none; flex-direction: column;
+        position: fixed; top: 60px; left: 0; right: 0;
+        background: rgba(0,0,0,.97); border-bottom: 1px solid var(--border-faint);
+        padding: 1.5rem; gap: 1.2rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-status { display: none; }
+      .nav-hamburger { display: flex; }
+      main section, main article { padding: 5rem 1.25rem; }
+      footer { padding: 4rem 1.25rem 2rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .projeto-header { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav role="navigation" aria-label="Menu principal">
+    <a href="#hero" class="nav-logo"><span>TT</span> // THE TITANS</a>
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#projeto">Projeto ∆T</a></li>
+      <li><a href="#valores">Valores</a></li>
+    </ul>
+    <div class="nav-status" aria-hidden="true">
+      <span class="dot"></span>SYS:ONLINE
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+
+  <!-- HERO -->
+  <header id="hero" role="banner">
+    <div class="hero-content">
+
+      <!-- LO — INS AUI -->
+      <div class="logo-container" aria-label="Logo The Titans">
+        <span class="logo-tt">TT</span>
+      </div>
+      
+
+      <span class="hero-eyebrow fade-in d1">SISTEMA_TT // PROTOCOLO ATIVO</span>
+
+      <h1 class="hero-title fade-in d2"
+          data-text="THE TITANS — INOVAÇÃO QUE ANTECEDE O AMANHÃ">
+        THE TITANS <span class="dim">—</span><br>INOVAÇÃO QUE ANTECEDE O AMANHÃ
+      </h1>
+
+      <p class="hero-sub fade-in d3">
+        <span class="prompt">&gt;&nbsp;</span>INFRAESTRUTURA._SISTEMAS._FUTURO
+      </p>
+
+      <div class="hero-terminal fade-in d4" aria-label="Status do sistema">
+        <span>status: <strong>operacional</strong></span>
+        <span class="sep">|</span>
+        <span>protocolo: TT-∆T</span>
+        <span class="sep">|</span>
+        <span id="hero-clock">00:00:00</span>
+      </div>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- SOE -->
+    <section id="sobre" aria-labelledby="sobre-title">
+      <span class="section-label">// 01 — IDENTIDADE</span>
+      <h2 class="section-title" id="sobre-title">
+        <span class="prompt">::&nbsp;</span>SOBRE A TT
+      </h2>
+      <div class="sobre-grid">
+        <div class="sobre-text">
+          <p>
+            Há décadas, a <span class="highlight">The Titans (TT)</span> atua silenciosamente onde o futuro começa: infraestrutura, tecnologia e soluções que não apenas acompanham o tempo — <span class="highlight">elas o redefinem</span>.
+          </p>
+          <p>
+            Não somos visíveis. Somos essenciais. Nossa presença se manifesta nos sistemas que sustentam decisões críticas, nas arquiteturas que resistem ao caos e nos protocolos que garantem continuidade quando tudo mais vacila.
+          </p>
+          <p>
+            Operamos na interseção entre precisão técnica e visão estratégica, construindo a infraestrutura invisível que sustenta os pilares do amanhã.
+          </p>
+          <div class="sobre-stat-row">
+            <div class="sobre-stat">
+              <span class="num">∞</span>
+              <span class="lbl">CONTINUIDADE</span>
+            </div>
+            <div class="sobre-stat">
+              <span class="num">01</span>
+              <span class="lbl">PROTOCOLO</span>
+            </div>
+            <div class="sobre-stat">
+              <span class="num">∆T</span>
+              <span class="lbl">PROJETO ATIVO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IMA -->
+        <figure class="sobre-visual" aria-label="Infraestrutura invisível">
+
+
+            <img src="TT logo.jpeg"
+                 alt="Data center" loading="lazy" />
+
+
+          <div class="sobre-visual-art" aria-hidden="true"></div>
+          <div class="sobre-visual-overlay" aria-hidden="true"></div>
+          <span class="sobre-visual-label" aria-hidden="true">// INFRAESTRUTURA INVISÍVEL</span>
+        </figure>
+        <!-- FI -->
+      </div>
+    </section>
+
+
+    <!-- PROT -->
+    <article id="projeto" aria-labelledby="projeto-title">
+      <div style="max-width:1200px;margin:0 auto;">
+        <header class="projeto-header">
+          <div>
+            <span class="section-label">// 02 — INICIATIVA ESTRATÉGICA</span>
+            <h2 class="section-title" id="projeto-title">
+              <span class="prompt">&gt;&nbsp;</span>TT – ∆T // PROJETO ESTRATÉGICO
+            </h2>
+          </div>
+          <div class="projeto-badge" aria-label="Status: Fase avançada">
+            <span class="dot-badge" aria-hidden="true"></span>STATUS: FASE AVANÇADA
+          </div>
+        </header>
+
+        <div class="projeto-layout">
+          <div class="projeto-text">
+            <p>O Projeto TT – ∆T representa a convergência de décadas de experiência operacional com a visão de um futuro que ainda não se tornou legível para a maioria. É a síntese entre o que foi construído em silêncio e o que será revelado no momento exato.</p>
+            <p>∆T não é apenas uma nomenclatura técnica. É a expressão matemática da mudança no tempo — e é exatamente isso que este projeto incorpora: a <strong>capacidade de antecipar, modelar e operar dentro das variações</strong> que definem o curso das estruturas críticas.</p>
+            <p>Operando em fase avançada, o TT – ∆T estabelece novos parâmetros de estabilidade sistêmica, integrando camadas de decisão, redundância e adaptabilidade que tornam obsoletos os modelos convencionais de infraestrutura.</p>
+            <p>Os detalhes operacionais permanecem restritos. O que pode ser dito: quando ∆T for ativado em escala plena, as estruturas ao redor não precisarão saber que ele existe — apenas sentirão que o futuro chegou antes do previsto.</p>
+          </div>
+
+          <!-- ∆T BOX -->
+          <aside class="delta-box" aria-label="Ficha do Projeto Delta T">
+            <span class="delta-symbol" aria-hidden="true">∆T</span>
+            <span class="delta-label">PROJETO ESTRATÉGICO</span>
+            <dl class="delta-meta">
+              <div class="delta-meta-item">
+                <dt class="key">CLASSIFICAÇÃO</dt>
+                <dd class="val">RESTRITO</dd>
+              </div>
+              <div class="delta-meta-item">
+                <dt class="key">FASE</dt>
+                <dd class="val">AVANÇADA</dd>
+              </div>
+              <div class="delta-meta-item">
+                <dt class="key">PROTOCOLO</dt>
+                <dd class="val">TT-∆T-9</dd>
+              </div>
+              <div class="delta-meta-item">
+                <dt class="key">STATUS</dt>
+                <dd class="val">ATIVO</dd>
+              </div>
+              <div class="delta-meta-item">
+                <dt class="key">ACESSO</dt>
+                <dd class="val">NÍVEL α</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </div>
+    </article>
+
+
+    <!-- VA -->
+    <section id="valores" aria-labelledby="valores-title">
+      <span class="section-label">// 03 — FUNDAMENTOS</span>
+      <h2 class="section-title" id="valores-title">
+        <span class="prompt">::&nbsp;</span>MISSÃO._VISÃO._VALORES
+      </h2>
+      <div class="valores-grid" role="list">
+
+        <article class="valor-card fade-in" role="listitem" aria-labelledby="missao-title">
+          <span class="valor-icon" aria-hidden="true">⚡</span>
+          <span class="valor-name">// MISSÃO</span>
+          <h3 class="valor-title" id="missao-title">Equilíbrio entre tecnologia, sociedade e futuro</h3>
+          <p class="valor-desc">Garantir o equilíbrio entre tecnologia, sociedade e futuro — operando onde o impacto é máximo e a visibilidade, mínima.</p>
+        </article>
+
+        <article class="valor-card fade-in d2" role="listitem" aria-labelledby="visao-title">
+          <span class="valor-icon" aria-hidden="true">◈</span>
+          <span class="valor-name">// VISÃO</span>
+          <h3 class="valor-title" id="visao-title">A infraestrutura invisível que sustenta o amanhã</h3>
+          <p class="valor-desc">Ser a infraestrutura invisível que sustenta o amanhã — presente em cada decisão crítica, ausente nos créditos.</p>
+        </article>
+
+        <article class="valor-card fade-in d4" role="listitem" aria-labelledby="valores-card-title">
+          <span class="valor-icon" aria-hidden="true">⎈</span>
+          <span class="valor-name">// VALORES</span>
+          <h3 class="valor-title" id="valores-card-title">Ética, precisão, estabilidade, inovação silenciosa</h3>
+          <p class="valor-desc">Cada decisão é orientada por ética, executada com precisão, consolidada em estabilidade e movida por uma inovação que não anuncia — apenas acontece.</p>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <p class="footer-phrase">Porque estabilidade<br>não é acaso.<br>É projeto.</p>
+      <div class="footer-system">
+        <span>&gt; THE TITANS</span>
+        <span class="sep">//</span>
+        <span>SISTEMA ATIVO</span>
+        <span class="sep">|</span>
+        <span>PROTOCOLO TT-∆T</span>
+        <span class="sep">|</span>
+        <span id="footer-clock" aria-live="polite">00:00:00 UTC</span>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© <span id="year"></span> THE TITANS // TODOS OS PROTOCOLOS RESERVADOS</p>
+        <!-- SUBSTITUA pelo e-mail real -->
+        <a href="mailto:contato@thetitans.tt" class="footer-contact">contato@thetitans.tt</a>
+        <p class="footer-timestamp" id="footer-date"></p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    'use strict';
+
+    /* ok */
+    function updateClock() {
+      const now = new Date();
+      const pad = n => String(n).padStart(2,'0');
+      const t = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}`;
+      const heroClock = document.getElementById('hero-clock');
+      const footerClock = document.getElementById('footer-clock');
+      if (heroClock) heroClock.textContent = t;
+      if (footerClock) footerClock.textContent = t + ' UTC';
+      const days = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
+      const months = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+      const fd = document.getElementById('footer-date');
+      if (fd) fd.textContent = `${days[now.getDay()]} ${pad(now.getDate())} ${months[now.getMonth()]} ${now.getFullYear()}`;
+      const yr = document.getElementById('year');
+      if (yr) yr.textContent = now.getFullYear();
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* Haer */
+    const hamburger = document.getElementById('nav-hamburger');
+    const navLinks = document.getElementById('nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(open));
+        hamburger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      });
+      navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburger.setAttribute('aria-expanded','false');
+        hamburger.setAttribute('aria-label','Abrir menu');
+      }));
+    }
+
+    /* Fae iroll */
+    const fadeEls = document.querySelectorAll('.fade-in');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.1 });
+      fadeEls.forEach(el => obs.observe(el));
+    } else {
+      fadeEls.forEach(el => el.classList.add('visible'));
+    }
+    document.querySelectorAll('.hero-content .fade-in').forEach(el => el.classList.add('visible'));
+
+    /* Smoll */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+
+</body>
+</html>
