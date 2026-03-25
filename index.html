@@ -92,6 +92,13 @@
       color: var(--text-dim); letter-spacing: 0.1em;
       display: flex; align-items: center; gap: 0.5rem;
     }
+
+    a#sdec{
+      text-decoration: none;
+      text-transform: uppercase;
+      color: #3a3a3a;
+    }
+
     .dot { width: 5px; height: 5px; background: #3a3a3a; border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
     @keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
     .nav-hamburger {
@@ -384,7 +391,7 @@
       <li><a href="#valores">Valores</a></li>
     </ul>
     <div class="nav-status" aria-hidden="true">
-      <span class="dot"></span>SYS:ONLINE
+      <span class="dot"></span><a href="https://devpowerzin.github.io/TTSis/" id="sdec" style="text-decoration: none;" target="_blank">SYS:ONLINE</a>
     </div>
     <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menu" aria-expanded="false">
       <span></span><span></span><span></span>
